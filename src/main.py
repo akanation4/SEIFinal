@@ -1,5 +1,6 @@
 # ライブラリの読み込み
-from re import A
+from math import dist
+from matplotlib import type1font
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -110,3 +111,28 @@ for i in range(len(X_test)):
     print('[{0}] correct: {1:.3f}, predict: {2:.3f} ({3:.3f})'.format(i, c, p, c-p))
 
 print('R^2 = {0}'.format(mlp.score(X_test, y_test)))
+
+year = 2020
+area = 313
+nearest_station_distance = 9
+district_name = '花園'
+structure_of_building = '木造'
+front_road_direction = '南'
+
+test = pd.DataFrame({'year':[year], 'area':[area], 'nearest_station_distance':[nearest_station_distance], 'district_name':[district_name], 'structure_of_building':[structure_of_building], 'front_road_direction':[front_road_direction]})
+test['district_name'] = pd.Categorical(test['district_name'],
+categories=['あずさ', 'みどり台北', 'みどり台南', '上長都', '中央', '住吉',
+'信濃', '勇舞', '北信濃', '北光', '北斗', '北栄', '北陽', '千代田町', '協和',
+'大和', '富丘', '富士', '寿', '幌加', '平和', '幸町', '幸福', '弥生', '文京', '新富',
+'新川', '新星', '日の出', '旭ケ丘', '春日町', '朝日町', '末広', '本町', '東丘',
+'東郊', '東雲町', '柏台', '柏台南', '柏陽', '栄町', '根志越', '桂木', '桜木',
+'梅ケ丘', '泉沢', '泉郷', '流通', '清水町', '清流', '白樺', '真々地', '祝梅',
+'福住', '稲穂', '緑町', '美々', '自由ケ丘', '花園', '若草', '蘭越', '豊里',
+'都', '里美', '釜加', '錦町', '長都', '長都駅前', '青葉', '青葉丘', '駒里', '高台'])
+test['structure_of_building'] = pd.Categorical(test['structure_of_building'],
+categories=['ブロック造', '木造', '軽量鉄骨造', '鉄骨造', '鉄骨造、木造',
+'ＲＣ', 'ＲＣ、木造', 'ＳＲＣ'])
+test['front_road_direction'] = pd.Categorical(test['front_road_direction'],
+categories=['北', '北東', '北西', '南', '南東', '南西', '接面道路無', '東', '西'])
+test = pd.get_dummies(test)
+mlp.predict(test)
