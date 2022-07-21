@@ -8,16 +8,16 @@ from sklearn.neural_network import MLPRegressor
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET', 'POST'])
 def get():
     # JSON形式でデータ取得
     json = request.get_json()
-    year = float(json.get('year'))
-    area = float(json.get('area'))
-    nearest_station_distance = float(json.get('nearest_station_distance'))
-    district_name = json.get('district_name')
-    structure_of_building = json.get('structure_of_building')
-    front_road_direction = json.get('front_road_direction')
+    year = float(json.get("year"))
+    area = float(json.get("area"))
+    nearest_station_distance = float(json.get("nearest_station_distance"))
+    district_name = json.get("district_name")
+    structure_of_building = json.get("structure_of_building")
+    front_road_direction = json.get("front_road_direction")
 
     # データフレームに変換
     test = pd.DataFrame({'year':[year], 'area':[area], 'nearest_station_distance':[nearest_station_distance], 'district_name':[district_name], 'structure_of_building':[structure_of_building], 'front_road_direction':[front_road_direction]})
@@ -44,7 +44,7 @@ def get():
     result = loaded_model.predict(test_arr)
 
     # JSON形式で返す
-    return jsonify({'transaction_price':result[0]})
+    return jsonify({"transaction_price":result[0]})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
